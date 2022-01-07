@@ -45,9 +45,61 @@ struct ContentView: View {
             
            Spacer()
             
+            HStack {
+            
+            Button {self.rollDiceOne = false
+                self.rollDiceTwo = false
+                self.rollDiceThree = false
+                self.rollDiceFour = false
+                self.rollDiceFive = false
+                }
+            label: {
+            RoundedRectangle(cornerRadius: 25)
+                    .fill(Color("diceRed"))
+                    .padding(.all)
+                .frame(width: 120, height: 80)
+                .shadow(color: .black, radius: 10, x: 3, y: 3   )
+                .overlay(HStack {
+
+                    Text("Hold All")
+
+                        .font(Font.custom("PaytoneOne-Regular", size: 20))
+                        .foregroundColor(.black)
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true)
+                })
+
+            }
+            
+                Button {self.rollDiceOne = true
+                    self.rollDiceTwo = true
+                    self.rollDiceThree = true
+                    self.rollDiceFour = true
+                    self.rollDiceFive = true
+                    }
+                label: {
+                RoundedRectangle(cornerRadius: 25)
+                        .fill(Color("dutchGreen"))
+                        .padding(.all)
+                    .frame(width: 120, height: 80)
+                    .shadow(color: .black, radius: 10, x: 3, y: 3   )
+                    .overlay(HStack {
+
+                        Text("Roll All")
+
+                            .font(Font.custom("PaytoneOne-Regular", size: 20))
+                            .foregroundColor(.black)
+                            .navigationBarTitle("")
+                            .navigationBarHidden(true)
+                    })
+
+                }
             
             
+                
+                
             
+            }
             
         }
         .padding()
