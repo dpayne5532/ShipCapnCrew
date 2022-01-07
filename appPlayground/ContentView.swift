@@ -244,7 +244,7 @@ struct ContentView: View {
                 RoundedRectangle(cornerRadius: 25)
                         .fill(Color("dutchGreen"))
                     .padding(.all)
-                    .frame(width: 130, height: 80)
+                    .frame(width: 130, height: 130)
                     .shadow(color: .black, radius: 10, x: 3, y: 3   )
                     .overlay(HStack {
 
