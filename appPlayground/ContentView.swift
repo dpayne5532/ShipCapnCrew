@@ -10,13 +10,13 @@ import SwiftUI
 struct ContentView: View {
     
    
-    @State var isDone = false
     
-    @State var diceOne = 3
-    @State var diceTwo = 2
-    @State var diceThree = 3
-    @State var diceFour = 4
-    @State var diceFive = 5
+    
+    @State var diceOne = 1
+    @State var diceTwo = 1
+    @State var diceThree = 1
+    @State var diceFour = 1
+    @State var diceFive = 1
     
     @State var rollDiceOne = true
     @State var rollDiceTwo = true
@@ -45,7 +45,7 @@ struct ContentView: View {
             
            Spacer()
             
-            HStack {
+            VStack {
             
             Button {self.rollDiceOne = false
                 self.rollDiceTwo = false
@@ -55,9 +55,9 @@ struct ContentView: View {
                 }
             label: {
             RoundedRectangle(cornerRadius: 25)
-                    .fill(Color("diceRed"))
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("diceRedLight"), Color("diceRed")]), startPoint: .leading, endPoint: .trailing))
                     .padding(.all)
-                .frame(width: 120, height: 80)
+                .frame(width: 140, height: 80)
                 .shadow(color: .black, radius: 10, x: 3, y: 3   )
                 .overlay(HStack {
 
@@ -79,9 +79,9 @@ struct ContentView: View {
                     }
                 label: {
                 RoundedRectangle(cornerRadius: 25)
-                        .fill(Color("dutchGreen"))
+                        .fill(LinearGradient(gradient: Gradient(colors: [Color("dutchGreen"), Color("dutchGreenDark")]), startPoint: .leading, endPoint: .trailing))
                         .padding(.all)
-                    .frame(width: 120, height: 80)
+                    .frame(width: 130, height: 80)
                     .shadow(color: .black, radius: 10, x: 3, y: 3   )
                     .overlay(HStack {
 
@@ -113,7 +113,11 @@ struct ContentView: View {
                 Button {self.rollDiceOne.toggle()}
                 label: {
                 RoundedRectangle(cornerRadius: 25)
-                        .fill(rollDiceOne ? Color("dutchGreen") : Color("diceRed"))
+                    
+                    
+                    // .background(LinearGradient(gradient: Gradient(colors: [Color("DarkGreen"), Color("LightGreen")]), startPoint: .leading, endPoint: .trailing))
+                    
+                      .fill(rollDiceOne ? Color("dutchGreen") : Color("diceRed"))
                         .padding(.all)
                     .frame(width: 150, height: 105)
                     .shadow(color: .black, radius: 10, x: 3, y: 3   )
@@ -204,8 +208,10 @@ struct ContentView: View {
                             .navigationBarTitle("")
                             .navigationBarHidden(true)
                     })
-
+                    
+                    
                 }
+                
                 
                 
                 
@@ -232,14 +238,7 @@ struct ContentView: View {
                     if rollDiceFive {
                         self.diceFive = Int.random(in: 1...6)
                     }
-                
-                
-                
                 }
-                
-            
-            
-            
             label: {
                 RoundedRectangle(cornerRadius: 25)
                         .fill(Color("dutchGreen"))
@@ -255,27 +254,12 @@ struct ContentView: View {
                             .navigationBarTitle("")
                             .navigationBarHidden(true)
                     })
-
                 }
-            
             }
-            
-        
-        
-        
-        
         }
-        
         }
-        
     }
-    
-    
 }
-
-
-
-
 struct DiceView: View {
     let n: Int
     
