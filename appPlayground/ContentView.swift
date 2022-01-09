@@ -24,6 +24,7 @@ struct ContentView: View {
     @State var rollDiceFour = true
     @State var rollDiceFive = true
     
+    @State var rollNumber = 1
     
     var body: some View {
    
@@ -31,7 +32,20 @@ struct ContentView: View {
             Image("background")
                 .resizable()
                 .edgesIgnoringSafeArea(.all)
-        HStack {
+            
+            
+            VStack {
+            Text("Roll:")
+                .font(Font.custom("PaytoneOne-Regular", size: 30))
+                .foregroundColor(.black)
+                .navigationBarTitle("")
+                .navigationBarHidden(true)
+       Image("metal\(rollNumber)")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            
+            }
+                HStack {
         VStack {
 
             DiceView(n: diceOne)
@@ -238,10 +252,16 @@ struct ContentView: View {
                     if rollDiceFive {
                         self.diceFive = Int.random(in: 1...6)
                     }
+                    if rollNumber == 0 {
+                        rollNumber += 3
+                    } else {
+                        rollNumber -= 1
+                    }
+                    
                 }
             label: {
-                RoundedRectangle(cornerRadius: 25)
-                        .fill(Color("dutchGreen"))
+                RoundedRectangle(cornerRadius: 85)
+                    .fill(LinearGradient(gradient: Gradient(colors: [Color("dutchGreen"), Color("dutchGreenDark")]), startPoint: .leading, endPoint: .trailing))
                     .padding(.all)
                     .frame(width: 130, height: 130)
                     .shadow(color: .black, radius: 10, x: 3, y: 3   )
