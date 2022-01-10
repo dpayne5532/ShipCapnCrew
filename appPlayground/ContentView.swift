@@ -24,7 +24,7 @@ struct ContentView: View {
     @State var rollDiceFour = true
     @State var rollDiceFive = true
     
-    @State var rollNumber = 1
+    @State var rollNumber = 0
     
     var body: some View {
    
@@ -252,10 +252,15 @@ struct ContentView: View {
                     if rollDiceFive {
                         self.diceFive = Int.random(in: 1...6)
                     }
-                    if rollNumber == 0 {
-                        rollNumber += 3
+                    if rollNumber == 3 {
+                        diceOne = 1
+                        diceTwo = 1
+                        diceThree = 1
+                        diceFour = 1
+                        diceFive = 1
+                        rollNumber -= 3
                     } else {
-                        rollNumber -= 1
+                        rollNumber += 1
                     }
                     
                 }
