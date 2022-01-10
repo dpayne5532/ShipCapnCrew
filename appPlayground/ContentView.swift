@@ -259,6 +259,11 @@ struct ContentView: View {
                         diceFour = 1
                         diceFive = 1
                         rollNumber -= 3
+                        self.rollDiceOne = true
+                            self.rollDiceTwo = true
+                            self.rollDiceThree = true
+                            self.rollDiceFour = true
+                            self.rollDiceFive = true
                     } else {
                         rollNumber += 1
                     }
