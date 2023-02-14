@@ -76,11 +76,22 @@ struct ContentView: View {
       }
       HStack {
         VStack {
-          DiceView(n: diceOne)
-          DiceView(n: diceTwo)
-          DiceView(n: diceThree)
-          DiceView(n: diceFour)
-          DiceView(n: diceFive)
+          
+          
+          
+            
+            
+            
+            
+          DiceView(n: diceOne, rollDice: rollDiceOne)
+          DiceView(n: diceTwo, rollDice: rollDiceTwo)
+          DiceView(n: diceThree, rollDice: rollDiceThree)
+          DiceView(n: diceFour, rollDice: rollDiceFour)
+          DiceView(n: diceFive, rollDice: rollDiceFive)
+          
+          
+          
+          
           Spacer()
           VStack {
             Button { allFalse()
@@ -254,8 +265,11 @@ struct ContentView: View {
 }
 struct DiceView: View {
   let n: Int
+  let rollDice: Bool
+
   var body: some View {
-    Image("dice\(n)")
+  
+    Image(rollDice ? "dice\(n)" : "diceRed\(n)")
       .resizable()
       .scaledToFit()
   }
