@@ -216,12 +216,16 @@ struct ContentView: View {
               self.diceFive = Int.random(in: 1...6)
             }
             if rollNumber == 3 {
+              AudioServicesPlaySystemSound(1305)
               diceReset()
               allTrue()
+              
             } else {
+              self.audioPlayer.play()
               rollNumber += 1
             }
-            self.audioPlayer.play()
+            
+            
             
           }
         label: {
