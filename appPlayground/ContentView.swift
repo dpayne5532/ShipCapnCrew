@@ -4,12 +4,13 @@
 //
 //  Created by Dan Payne on 1/5/22.
 //
-
+import AVFoundation
+import AVKit
 import SwiftUI
 
 struct ContentView: View {
   
-  
+  @State var audioPlayer: AVAudioPlayer!
   
   
   @State var diceOne = 1
@@ -47,6 +48,7 @@ struct ContentView: View {
     diceFour = 1
     diceFive = 1
     rollNumber -= 3
+    
   }
   
   
@@ -55,7 +57,7 @@ struct ContentView: View {
     
     ZStack {
       
-      Image("background")
+      Image("background2")
         .resizable()
         .edgesIgnoringSafeArea(.all)
       VStack {
@@ -219,6 +221,7 @@ struct ContentView: View {
             } else {
               rollNumber += 1
             }
+            self.audioPlayer.play()
             
           }
         label: {
@@ -238,12 +241,19 @@ struct ContentView: View {
         }
       }
     }
+    .onAppear {
+      let sound = Bundle.main.path(forResource: "rollDice", ofType: "mp3")
+      self.audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound!))
+      
+    }
   }
 }
 struct DiceView: View {
   let n: Int
   var body: some View {
     Image("dice\(n)")
+      .resizable()
+      .scaledToFit()
   }
 }
 
@@ -258,7 +268,6 @@ struct ContentView_Previews: PreviewProvider {
       .previewInterfaceOrientation(.portraitUpsideDown)
   }
 }
-
 
 
 
