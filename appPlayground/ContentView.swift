@@ -19,27 +19,27 @@ struct ContentView: View {
   @State var diceFour = 1
   @State var diceFive = 1
   
-  @State var rollDiceOne = true
-  @State var rollDiceTwo = true
-  @State var rollDiceThree = true
-  @State var rollDiceFour = true
-  @State var rollDiceFive = true
+  @State var rollDice1 = true
+  @State var rollDice2 = true
+  @State var rollDice3 = true
+  @State var rollDice4 = true
+  @State var rollDice5 = true
   
   @State var rollNumber = 0
   
   func allTrue() {
-    self.rollDiceOne = true
-    self.rollDiceTwo = true
-    self.rollDiceThree = true
-    self.rollDiceFour = true
-    self.rollDiceFive = true
+    self.rollDice1 = true
+    self.rollDice2 = true
+    self.rollDice3 = true
+    self.rollDice4 = true
+    self.rollDice5 = true
   }
   func allFalse() {
-    self.rollDiceOne = false
-    self.rollDiceTwo = false
-    self.rollDiceThree = false
-    self.rollDiceFour = false
-    self.rollDiceFive = false
+    self.rollDice1 = false
+    self.rollDice2 = false
+    self.rollDice3 = false
+    self.rollDice4 = false
+    self.rollDice5 = false
   }
   func diceReset() {
     diceOne = 1
@@ -75,11 +75,11 @@ struct ContentView: View {
       }
       HStack {
         VStack {
-          DiceView(n: diceOne, rollDice: rollDiceOne)
-          DiceView(n: diceTwo, rollDice: rollDiceTwo)
-          DiceView(n: diceThree, rollDice: rollDiceThree)
-          DiceView(n: diceFour, rollDice: rollDiceFour)
-          DiceView(n: diceFive, rollDice: rollDiceFive)
+          DiceView(n: diceOne, rollDice: rollDice1)
+          DiceView(n: diceTwo, rollDice: rollDice2)
+          DiceView(n: diceThree, rollDice: rollDice3)
+          DiceView(n: diceFour, rollDice: rollDice4)
+          DiceView(n: diceFive, rollDice: rollDice5)
           Spacer()
           VStack {
             Button { allFalse()
@@ -122,75 +122,75 @@ struct ContentView: View {
         .padding()
         Spacer()
         VStack {
-          Button {self.rollDiceOne.toggle()}
+          Button {self.rollDice1.toggle()}
         label: {
           RoundedRectangle(cornerRadius: 25)
-            .fill(rollDiceOne ? Color("dutchGreen") : Color("diceRed"))
+            .fill(rollDice1 ? Color("dutchGreen") : Color("diceRed"))
             .padding(.all)
             .frame(width: 150, height: 105)
             .shadow(color: .black, radius: 10, x: 3, y: 3   )
             .overlay(HStack {
-              Text(rollDiceOne ? "Hold?" : "HELD!")
+              Text(rollDice1 ? "Hold?" : "HELD!")
                 .font(Font.custom("PaytoneOne-Regular", size: 20))
                 .foregroundColor(.black)
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
             })
         }
-          Button {self.rollDiceTwo.toggle()}
+          Button {self.rollDice2.toggle()}
         label: {
           RoundedRectangle(cornerRadius: 25)
-            .fill(rollDiceTwo ? Color("dutchGreen") : Color("diceRed"))
+            .fill(rollDice2 ? Color("dutchGreen") : Color("diceRed"))
             .padding(.all)
             .frame(width: 150, height: 105)
             .shadow(color: .black, radius: 10, x: 3, y: 3   )
             .overlay(HStack {
-              Text(rollDiceTwo ? "Hold?" : "HELD!")
+              Text(rollDice2 ? "Hold?" : "HELD!")
                 .font(Font.custom("PaytoneOne-Regular", size: 20))
                 .foregroundColor(.black)
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
             })
         }
-          Button {self.rollDiceThree.toggle()}
+          Button {self.rollDice3.toggle()}
         label: {
           RoundedRectangle(cornerRadius: 25)
-            .fill(rollDiceThree ? Color("dutchGreen") : Color("diceRed"))
+            .fill(rollDice3 ? Color("dutchGreen") : Color("diceRed"))
             .padding(.all)
             .frame(width: 150, height: 105)
             .shadow(color: .black, radius: 10, x: 3, y: 3   )
             .overlay(HStack {
-              Text(rollDiceThree ? "Hold?" : "HELD!")
+              Text(rollDice3 ? "Hold?" : "HELD!")
                 .font(Font.custom("PaytoneOne-Regular", size: 20))
                 .foregroundColor(.black)
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
             })
         }
-          Button {self.rollDiceFour.toggle()}
+          Button {self.rollDice4.toggle()}
         label: {
           RoundedRectangle(cornerRadius: 25)
-            .fill(rollDiceFour ? Color("dutchGreen") : Color("diceRed"))
+            .fill(rollDice4 ? Color("dutchGreen") : Color("diceRed"))
             .padding(.all)
             .frame(width: 150, height: 105)
             .shadow(color: .black, radius: 10, x: 3, y: 3   )
             .overlay(HStack {
-              Text(rollDiceFour ? "Hold?" : "HELD!")
+              Text(rollDice4 ? "Hold?" : "HELD!")
                 .font(Font.custom("PaytoneOne-Regular", size: 20))
                 .foregroundColor(.black)
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
             })
         }
-          Button {self.rollDiceFive.toggle()}
+          Button {self.rollDice5.toggle()}
         label: {
           RoundedRectangle(cornerRadius: 25)
-            .fill(rollDiceFive ? Color("dutchGreen") : Color("diceRed"))
+            .fill(rollDice5 ? Color("dutchGreen") : Color("diceRed"))
             .padding(.all)
             .frame(width: 150, height: 105)
             .shadow(color: .black, radius: 10, x: 3, y: 3   )
             .overlay(HStack {
-              Text(rollDiceFive ? "Hold?" : "HELD!")
+              Text(rollDice5 ? "Hold?" : "HELD!")
                 .font(Font.custom("PaytoneOne-Regular", size: 20))
                 .foregroundColor(.black)
                 .navigationBarTitle("")
@@ -199,19 +199,19 @@ struct ContentView: View {
         }
           Spacer()
           Button {
-            if rollDiceOne {
+            if rollDice1 {
               self.diceOne = Int.random(in: 1...6)
             }
-            if rollDiceTwo {
+            if rollDice2 {
               self.diceTwo = Int.random(in: 1...6)
             }
-            if rollDiceThree {
+            if rollDice3 {
               self.diceThree = Int.random(in: 1...6)
             }
-            if rollDiceFour {
+            if rollDice4 {
               self.diceFour = Int.random(in: 1...6)
             }
-            if rollDiceFive {
+            if rollDice5 {
               self.diceFive = Int.random(in: 1...6)
             }
             if rollNumber == 3 {
@@ -259,6 +259,8 @@ struct DiceView: View {
       .scaledToFit()
   }
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
