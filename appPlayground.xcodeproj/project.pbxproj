@@ -12,7 +12,6 @@
 		3600FEE82785CE2F0019A2EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3600FEE72785CE2F0019A2EB /* Assets.xcassets */; };
 		3600FEEB2785CE2F0019A2EB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3600FEEA2785CE2F0019A2EB /* Preview Assets.xcassets */; };
 		36389EDF299B14D30039AFBC /* rollDice.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 36389EDE299B14D30039AFBC /* rollDice.mp3 */; };
-		36389EE3299B153B0039AFBC /* SoundExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36389EE2299B153B0039AFBC /* SoundExample.swift */; };
 		3669F95C278B72AC00CEF6F9 /* PaytoneOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3669F95B278B72AC00CEF6F9 /* PaytoneOne-Regular.ttf */; };
 /* End PBXBuildFile section */
 
@@ -23,7 +22,6 @@
 		3600FEE72785CE2F0019A2EB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3600FEEA2785CE2F0019A2EB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		36389EDE299B14D30039AFBC /* rollDice.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rollDice.mp3; sourceTree = "<group>"; };
-		36389EE2299B153B0039AFBC /* SoundExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundExample.swift; sourceTree = "<group>"; };
 		3669F95B278B72AC00CEF6F9 /* PaytoneOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PaytoneOne-Regular.ttf"; sourceTree = "<group>"; };
 		369134482787FC30005A6D6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -65,7 +63,6 @@
 				3600FEE72785CE2F0019A2EB /* Assets.xcassets */,
 				3669F95B278B72AC00CEF6F9 /* PaytoneOne-Regular.ttf */,
 				3600FEE92785CE2F0019A2EB /* Preview Content */,
-				36389EE2299B153B0039AFBC /* SoundExample.swift */,
 			);
 			path = appPlayground;
 			sourceTree = "<group>";
@@ -152,7 +149,6 @@
 			files = (
 				3600FEE62785CE2E0019A2EB /* ContentView.swift in Sources */,
 				3600FEE42785CE2E0019A2EB /* appPlaygroundApp.swift in Sources */,
-				36389EE3299B153B0039AFBC /* SoundExample.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +277,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"appPlayground/Preview Content\"";
 				DEVELOPMENT_TEAM = 99ZUCD4A48;
 				ENABLE_PREVIEWS = YES;
@@ -316,7 +312,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"appPlayground/Preview Content\"";
 				DEVELOPMENT_TEAM = 99ZUCD4A48;
 				ENABLE_PREVIEWS = YES;

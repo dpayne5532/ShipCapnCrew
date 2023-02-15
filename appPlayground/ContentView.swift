@@ -68,7 +68,10 @@ struct ContentView: View {
               .foregroundColor(.black)
             
           }
+          
           .fullScreenCover(isPresented: $isPresented, content: FullScreenModalView.init)
+          
+          
           
         }
         .padding(.top)
@@ -321,8 +324,6 @@ struct FullScreenModalView: View {
         Text("Back To The Game")
           .foregroundColor(.white)
       }
-        
-        
         
       }
     }
