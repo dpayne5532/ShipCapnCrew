@@ -9,7 +9,7 @@ import AVKit
 import SwiftUI
 
 struct ContentView: View {
-  
+  @State private var isPresented = false
   @State var audioPlayer: AVAudioPlayer!
   
   
@@ -58,6 +58,20 @@ struct ContentView: View {
         .resizable()
         .edgesIgnoringSafeArea(.all)
       VStack {
+        
+        HStack {
+          
+          Button {
+            isPresented.toggle()
+          } label: {
+            Image(systemName: "info.circle")
+              .foregroundColor(.black)
+            
+          }
+          .fullScreenCover(isPresented: $isPresented, content: FullScreenModalView.init)
+          
+        }
+        .padding(.top)
         Spacer()
         Spacer()
         Text("Roll")
@@ -197,6 +211,8 @@ struct ContentView: View {
                 .navigationBarHidden(true)
             })
         }
+          
+          
           Spacer()
           Button {
             if rollDice1 {
@@ -228,7 +244,7 @@ struct ContentView: View {
           RoundedRectangle(cornerRadius: 85)
             .fill(LinearGradient(gradient: Gradient(colors: [Color("dutchGreen"), Color("dutchGreenDark")]), startPoint: .leading, endPoint: .trailing))
             .padding(.all)
-            .frame(width: 200, height: 120)
+            .frame(width: 200, height: 100)
             .shadow(color: .black, radius: 10, x: 3, y: 3   )
             .overlay(HStack {
               Text("ROLL")
@@ -238,6 +254,9 @@ struct ContentView: View {
                 .navigationBarHidden(true)
             })
         }
+          
+          
+          
         }
       }
     }
@@ -251,9 +270,9 @@ struct ContentView: View {
 struct DiceView: View {
   let n: Int
   let rollDice: Bool
-
-  var body: some View {
   
+  var body: some View {
+    
     Image(rollDice ? "dice\(n)" : "diceRed\(n)")
       .resizable()
       .scaledToFit()
@@ -271,6 +290,43 @@ struct ContentView_Previews: PreviewProvider {
 
 
 
-
+struct FullScreenModalView: View {
+  @Environment(\.dismiss) var dismiss
+  
+  var body: some View {
+    ZStack {
+      Color.black
+        .ignoresSafeArea()
+      VStack {
+        Text("Ship Cap'n Crew")
+          .font(.title)
+          .foregroundColor(.white)
+          .bold()
+        Spacer()
+        
+        Text("Roll the dice and once you have a 4 5 and 6, the remaining two dice add up to your point. You may hold and roll dice as you please, but you only get three rolls per turn.")
+          .foregroundColor(.white)
+          .padding(.horizontal)
+        Text("On roll 3, when you press Roll, the game will automatically reset")
+          .foregroundColor(.white)
+          .padding(.top)
+          .padding(.horizontal)
+        
+        Spacer()
+        
+        Button {
+          dismiss()
+        }
+      label: {
+        Text("Back To The Game")
+          .foregroundColor(.white)
+      }
+        
+        
+        
+      }
+    }
+  }
+}
 
 
