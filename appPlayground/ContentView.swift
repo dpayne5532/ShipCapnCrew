@@ -50,20 +50,17 @@ struct ContentView: View {
     rollNumber -= 3
     
   }
-  
-  
-  
   var body: some View {
     
     ZStack {
       
-      Image("background2")
+      Image("background3")
         .resizable()
         .edgesIgnoringSafeArea(.all)
       VStack {
-        
         Spacer()
-        Text("Roll:")
+        Spacer()
+        Text("Roll")
           .font(Font.custom("PaytoneOne-Regular", size: 30))
           .foregroundColor(.black)
           .navigationBarTitle("")
@@ -73,25 +70,16 @@ struct ContentView: View {
         Image("metal\(rollNumber)")
           .resizable()
           .aspectRatio(contentMode: .fit)
+          .frame(width: 190)
+        Spacer()
       }
       HStack {
         VStack {
-          
-          
-          
-            
-            
-            
-            
           DiceView(n: diceOne, rollDice: rollDiceOne)
           DiceView(n: diceTwo, rollDice: rollDiceTwo)
           DiceView(n: diceThree, rollDice: rollDiceThree)
           DiceView(n: diceFour, rollDice: rollDiceFour)
           DiceView(n: diceFive, rollDice: rollDiceFive)
-          
-          
-          
-          
           Spacer()
           VStack {
             Button { allFalse()
@@ -235,18 +223,15 @@ struct ContentView: View {
               self.audioPlayer.play()
               rollNumber += 1
             }
-            
-            
-            
           }
         label: {
           RoundedRectangle(cornerRadius: 85)
             .fill(LinearGradient(gradient: Gradient(colors: [Color("dutchGreen"), Color("dutchGreenDark")]), startPoint: .leading, endPoint: .trailing))
             .padding(.all)
-            .frame(width: 130, height: 130)
+            .frame(width: 200, height: 120)
             .shadow(color: .black, radius: 10, x: 3, y: 3   )
             .overlay(HStack {
-              Text("ROLL!")
+              Text("ROLL")
                 .font(Font.custom("PaytoneOne-Regular", size: 20))
                 .foregroundColor(.black)
                 .navigationBarTitle("")
@@ -274,11 +259,6 @@ struct DiceView: View {
       .scaledToFit()
   }
 }
-
-
-
-
-
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
