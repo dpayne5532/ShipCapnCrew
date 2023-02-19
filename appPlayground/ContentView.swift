@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
   @State private var isPresented = false
   @State var audioPlayer: AVAudioPlayer!
-  
+  @State private var isRotated = false
   
   @State var diceOne = 1
   @State var diceTwo = 1
@@ -92,11 +92,11 @@ struct ContentView: View {
       }
       HStack {
         VStack {
-          DiceView(n: diceOne, rollDice: rollDice1)
-          DiceView(n: diceTwo, rollDice: rollDice2)
-          DiceView(n: diceThree, rollDice: rollDice3)
-          DiceView(n: diceFour, rollDice: rollDice4)
-          DiceView(n: diceFive, rollDice: rollDice5)
+          DiceView(n: diceOne, rollDice: rollDice1, isRotated: isRotated)
+          DiceView(n: diceTwo, rollDice: rollDice2, isRotated: isRotated)
+          DiceView(n: diceThree, rollDice: rollDice3, isRotated: isRotated)
+          DiceView(n: diceFour, rollDice: rollDice4, isRotated: isRotated)
+          DiceView(n: diceFive, rollDice: rollDice5, isRotated: isRotated)
           Spacer()
           VStack {
             Button { allFalse()
@@ -240,6 +240,7 @@ struct ContentView: View {
               
             } else {
               self.audioPlayer.play()
+              isRotated.toggle()
               rollNumber += 1
             }
           }
@@ -273,23 +274,25 @@ struct ContentView: View {
 struct DiceView: View {
   let n: Int
   let rollDice: Bool
+  let isRotated: Bool
+  var animation: Animation {
+    Animation.spring(response: 1.25)
+    
+  }
   
   var body: some View {
     
     Image(rollDice ? "dice\(n)" : "diceRed\(n)")
       .resizable()
       .scaledToFit()
+      .rotationEffect(Angle.degrees(isRotated ? 1080 : 0))
+      .animation(rollDice ? animation : nil)
   }
 }
 
 
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-      .previewInterfaceOrientation(.portraitUpsideDown)
-  }
-}
+
 
 
 
@@ -331,3 +334,9 @@ struct FullScreenModalView: View {
 }
 
 
+struct ContentView_Previews: PreviewProvider {
+  static var previews: some View {
+    ContentView()
+      .previewInterfaceOrientation(.portraitUpsideDown)
+  }
+}
