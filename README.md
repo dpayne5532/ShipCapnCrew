@@ -1,5 +1,9 @@
 # ShipCapnCrew
 
+Ver 1.0.1
+
+- animation added to dice roll
+
 Ship Capn Crew has been published to the Apple App Store! 
 
 [Find It Here!](https://apps.apple.com/us/app/ship-capn-crew/id1670235470)
