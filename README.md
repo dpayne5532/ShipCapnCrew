@@ -1,6 +1,6 @@
 # ShipCapnCrew
 
-Ver 1.0.1
+Ver 1.0.1 Released!
 
 - animation added to dice roll
 
