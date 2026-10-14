@@ -69,12 +69,19 @@ final class GameModel: ObservableObject {
   let maxRolls = 3
   var turnOver: Bool { !freeRoll && rollNumber >= maxRolls }
 
+  /// Only touched on `audioQueue`: iOS warns that audio session work on the main thread can stall the UI.
   private var audioPlayer: AVAudioPlayer?
+  private let audioQueue = DispatchQueue(label: "ShipCapnCrew.audio", qos: .userInitiated)
 
   init() {
-    if let url = Bundle.main.url(forResource: "rollDice", withExtension: "mp3") {
-      audioPlayer = try? AVAudioPlayer(contentsOf: url)
-      audioPlayer?.prepareToPlay()
+    audioQueue.async { [weak self] in
+      let session = AVAudioSession.sharedInstance()
+      try? session.setCategory(.ambient)  // respects the silent switch and mixes with music
+      try? session.setActive(true)
+      guard let url = Bundle.main.url(forResource: "rollDice", withExtension: "mp3") else { return }
+      let player = try? AVAudioPlayer(contentsOf: url)
+      player?.prepareToPlay()
+      self?.audioPlayer = player
     }
     #if DEBUG
     applyDemoState()
@@ -121,8 +128,10 @@ final class GameModel: ObservableObject {
       dice[i] = Int.random(in: 1...6)
       spins[i] += 1
     }
-    audioPlayer?.currentTime = 0
-    audioPlayer?.play()
+    audioQueue.async { [weak self] in
+      self?.audioPlayer?.currentTime = 0
+      self?.audioPlayer?.play()
+    }
     UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
       rollNumber += 1
@@ -178,26 +187,58 @@ struct ModernGameView: View {
   @Binding var showSettings: Bool
 
   var body: some View {
-    ZStack {
-      FuturisticBackground()
+    GeometryReader { geo in
+      // Wide screens (the iPhone Duo's unfolded inner display) get two columns instead of stretched rows.
+      let wide = geo.size.width > geo.size.height * 1.15
+      // Short screens (iPhone Duo outer display, iPhone SE) drop the tap hints and tighten spacing.
+      let compact = !wide && geo.size.height < 720
 
-      VStack(spacing: 14) {
-        header
-        StatusHUD(dice: game.dice, rollNumber: game.rollNumber, maxRolls: game.maxRolls, freeRoll: game.freeRoll)
-        VStack(spacing: 10) {
-          ForEach(0..<5) { i in
-            DieRow(index: i, value: game.dice[i], isRolling: game.rolling[i], spins: game.spins[i]) {
-              game.toggleHold(i)
+      ZStack {
+        FuturisticBackground()
+
+        Group {
+          if wide {
+            HStack(alignment: .top, spacing: 24) {
+              VStack(spacing: 16) {
+                header
+                hud
+                Spacer(minLength: 0)
+                controls(compact: false)
+              }
+              .frame(maxWidth: 400)
+              diceRows(compact: false)
+            }
+          } else {
+            VStack(spacing: compact ? 10 : 14) {
+              header
+              hud
+              diceRows(compact: compact)
+              controls(compact: compact)
             }
           }
         }
-        controls
+        .padding(.horizontal, wide ? 24 : 18)
+        // Screens with little or no top/bottom inset (like the iPhone Duo's outer display) still need breathing room.
+        .padding(.top, max(6, 24 - geo.safeAreaInsets.top))
+        .padding(.bottom, max(10, 20 - geo.safeAreaInsets.bottom))
       }
-      .padding(.horizontal, 18)
-      .padding(.top, 6)
-      .padding(.bottom, 10)
     }
     .preferredColorScheme(.dark)
+  }
+
+  private var hud: some View {
+    StatusHUD(dice: game.dice, rollNumber: game.rollNumber, maxRolls: game.maxRolls, freeRoll: game.freeRoll)
+  }
+
+  private func diceRows(compact: Bool) -> some View {
+    VStack(spacing: compact ? 8 : 10) {
+      ForEach(0..<5) { i in
+        DieRow(index: i, value: game.dice[i], isRolling: game.rolling[i], spins: game.spins[i],
+               compact: compact) {
+          game.toggleHold(i)
+        }
+      }
+    }
   }
 
   private var header: some View {
@@ -233,13 +274,13 @@ struct ModernGameView: View {
     .accessibilityLabel(label)
   }
 
-  private var controls: some View {
-    VStack(spacing: 10) {
+  private func controls(compact: Bool) -> some View {
+    VStack(spacing: compact ? 8 : 10) {
       HStack(spacing: 10) {
         SecondaryButton(title: "Hold All", icon: "lock.fill", tint: Theme.red) { game.setAll(rolling: false) }
         SecondaryButton(title: "Roll All", icon: "lock.open.fill", tint: Theme.green) { game.setAll(rolling: true) }
       }
-      RollButton(turnOver: game.turnOver, action: game.roll)
+      RollButton(turnOver: game.turnOver, height: compact ? 56 : 64, action: game.roll)
     }
   }
 }
@@ -350,6 +391,7 @@ struct DieRow: View {
   let value: Int
   let isRolling: Bool
   let spins: Int
+  var compact = false
   let toggle: () -> Void
 
   private var tint: Color { isRolling ? Theme.green : Theme.red }
@@ -370,10 +412,12 @@ struct DieRow: View {
           Text(isRolling ? "Rolling" : "Held")
             .font(Theme.display(20))
             .foregroundColor(Theme.text)
-          Text(isRolling ? "TAP TO HOLD" : "TAP TO RELEASE")
-            .font(Theme.mono(9, .medium))
-            .tracking(1)
-            .foregroundColor(tint.opacity(0.85))
+          if !compact {
+            Text(isRolling ? "TAP TO HOLD" : "TAP TO RELEASE")
+              .font(Theme.mono(9, .medium))
+              .tracking(1)
+              .foregroundColor(tint.opacity(0.85))
+          }
         }
 
         Spacer(minLength: 0)
@@ -473,6 +517,7 @@ struct SecondaryButton: View {
 
 struct RollButton: View {
   let turnOver: Bool
+  var height: CGFloat = 64
   let action: () -> Void
   @State private var pulse = false
 
@@ -491,7 +536,7 @@ struct RollButton: View {
       }
       .foregroundColor(Theme.void)
       .frame(maxWidth: .infinity)
-      .frame(height: 64)
+      .frame(height: height)
       .background(
         Capsule().fill(LinearGradient(colors: colors, startPoint: .leading, endPoint: .trailing))
       )

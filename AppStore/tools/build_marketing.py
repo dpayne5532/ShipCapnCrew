@@ -101,28 +101,53 @@ SHOTS = [
     ("06-settings", "4-settings", "Settings", "Play it<br><span class=g>your way</span>"),
 ]
 
-# (output folder, raw capture folder, canvas size == simulator size, Dynamic Island box in raw px)
+# (output folder, raw capture folder, canvas size == simulator size, Dynamic Island box in raw px or None,
+#  layout overrides for canvases that aren't tall iPhone proportions)
 DEVICES = [
-    ("6.3in-1206x2622", "raw63", (1206, 2622), (464, 42, 278, 110)),  # iPhone with Dynamic Island, medium
-    ("6.9in-1320x2868", "raw", (1320, 2868), (521, 42, 278, 110)),    # iPhone with Dynamic Island, large
+    ("6.3in-1206x2622", "raw63", (1206, 2622), (464, 42, 278, 110), {}),  # iPhone with Dynamic Island, medium
+    ("6.9in-1320x2868", "raw", (1320, 2868), (521, 42, 278, 110), {}),    # iPhone with Dynamic Island, large
+    # iPhone Duo outer display: shorter and wider, status bar in a side column, no island.
+    ("duo-outer-1398x2034", "rawduo", (1398, 2034), None,
+     {"copy_top": 120, "kicker": 36, "kicker_gap": 26, "h1": 100, "phone_top": 440, "screen_w": 1010, "radius": 150}),
+    # iPhone Duo inner (unfolded) display, landscape: caption on the left, device on the right.
+    ("duo-inner-2853x2007", "rawduoin", (2853, 2007), None, {"landscape": True, "screen_w": 1500, "radius": 120}),
 ]
 
-for folder, raw_dir, (SW, SH), (ix, iy, iw, ih) in DEVICES:
+for folder, raw_dir, (SW, SH), island, lay in DEVICES:
     k = SW / 1320  # layout was designed on the 1320-wide canvas
-    screen_w = round(1000 * k)
+    screen_w = lay.get("screen_w", round(1000 * k))
     scale = screen_w / SW
     screen_h = round(SH * scale)
     bezel = round(22 * k)
-    radius = round(190 * scale)
-    css = f"""
-.copy {{ position: absolute; top: {170*k}px; left: 0; right: 0; text-align: center; }}
-.kicker {{ font-size: {40*k}px; letter-spacing: {12*k}px; color: {CYAN}; margin-bottom: {34*k}px; }}
-h1 {{ font-size: {118*k}px; line-height: 1.04; font-weight: 850; letter-spacing: -1px; }}
-.phone {{ position: absolute; left: {(SW - screen_w) / 2 - bezel}px; top: {610*k}px;
+    radius = round(lay.get("radius", 190) * scale)
+    if lay.get("landscape"):
+        screen_x = SW - 150 - screen_w - bezel
+        css = f"""
+.copy {{ position: absolute; left: 150px; width: {screen_x - 150 - 120}px; top: 0; bottom: 0;
+  display: flex; flex-direction: column; justify-content: center; text-align: left; }}
+.kicker {{ font-size: 44px; letter-spacing: 13px; color: {CYAN}; margin-bottom: 40px; }}
+h1 {{ font-size: 104px; line-height: 1.04; font-weight: 850; letter-spacing: -1px; }}
+.phone {{ position: absolute; left: {screen_x - bezel}px; top: {(SH - screen_h) / 2 - bezel}px;
+  width: {screen_w + 2*bezel}px; height: {screen_h + 2*bezel}px; padding: {bezel}px;
+  border-radius: {radius + bezel}px; background: linear-gradient(145deg, #3a4157, #0b0e18 40%, #1b2030);
+  box-shadow: 0 0 0 3px rgba(61,232,255,.35), 0 0 140px rgba(61,232,255,.28), 0 60px 120px rgba(0,0,0,.6); }}
+.phone img {{ width: {screen_w}px; height: {screen_h}px; border-radius: {radius}px; display: block; }}
+"""
+    else:
+        css = f"""
+.copy {{ position: absolute; top: {lay.get("copy_top", 170*k)}px; left: 0; right: 0; text-align: center; }}
+.kicker {{ font-size: {lay.get("kicker", 40*k)}px; letter-spacing: {12*k}px; color: {CYAN};
+  margin-bottom: {lay.get("kicker_gap", 34*k)}px; }}
+h1 {{ font-size: {lay.get("h1", 118*k)}px; line-height: 1.04; font-weight: 850; letter-spacing: -1px; }}
+.phone {{ position: absolute; left: {(SW - screen_w) / 2 - bezel}px; top: {lay.get("phone_top", 610*k)}px;
   width: {screen_w + 2*bezel}px; height: {screen_h + 2*bezel}px; padding: {bezel}px;
   border-radius: {radius + bezel}px; background: linear-gradient(145deg, #3a4157, #0b0e18 40%, #1b2030);
   box-shadow: 0 0 0 {3*k}px rgba(61,232,255,.35), 0 0 {120*k}px rgba(61,232,255,.28), 0 {60*k}px {120*k}px rgba(0,0,0,.6); }}
 .phone img {{ width: {screen_w}px; height: {screen_h}px; border-radius: {radius}px; display: block; }}
+"""
+    if island:
+        ix, iy, iw, ih = island
+        css += f"""
 .island {{ position: absolute; left: {bezel + ix*scale}px; top: {bezel + iy*scale}px;
   width: {iw*scale}px; height: {ih*scale}px; border-radius: 999px; background: #000; }}
 """
@@ -134,7 +159,8 @@ h1 {{ font-size: {118*k}px; line-height: 1.04; font-weight: 850; letter-spacing:
                 + glow(VIOLET, 1200*k, 500*k, 1900*k, 32, 240*k)
                 + grid_svg(SW, SH // 2) + "</div>"
                 + f'<div class="copy"><div class="kicker mono">{kicker}</div><h1>{headline}</h1></div>'
-                + f'<div class="phone"><img src="file://{S}/{raw_dir}/{raw}.png"><div class="island"></div></div>')
+                + f'<div class="phone"><img src="file://{S}/{raw_dir}/{raw}.png">'
+                + ('<div class="island"></div>' if island else "") + "</div>")
         render(f"{folder}-{out_name}", page(SW, SH, body, css), SW, SH,
                os.path.join(dest_dir, out_name + ".png"))
 

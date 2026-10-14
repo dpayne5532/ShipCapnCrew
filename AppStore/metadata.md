@@ -55,5 +55,7 @@ New in Settings:
 | `search-results-3840x2560.png` | Search results (3:2) | 3840 × 2560 |
 | `screenshots/6.3in-1206x2622/01-roll.png` … `06-settings.png` | iPhone with Dynamic Island (medium display), in order | 1206 × 2622 |
 | `screenshots/6.9in-1320x2868/01-roll.png` … `06-settings.png` | iPhone with Dynamic Island (large display), in order | 1320 × 2868 |
+| `screenshots/duo-outer-1398x2034/01-roll.png` … `06-settings.png` | iPhone Duo, outer display, in order | 1398 × 2034 |
+| `screenshots/duo-inner-2853x2007/01-roll.png` … `06-settings.png` | iPhone Duo, inner display (landscape), in order | 2853 × 2007 |
 
 Header art keeps the focal dice inside Apple's centered 1646 × 661 safe area; the search asset keeps its title and dice inside the 2168 × 1030 safe area. All PNGs are RGB with no alpha.
