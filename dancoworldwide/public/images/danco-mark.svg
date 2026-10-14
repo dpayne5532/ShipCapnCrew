@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><defs>
+<linearGradient id="mbg" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#6C35CC"/><stop offset="1" stop-color="#2B0B5E"/>
+</linearGradient>
+<radialGradient id="msheen" cx=".28" cy=".18" r=".8">
+  <stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="mgold" x1="0" y1="0" x2=".35" y2="1">
+  <stop offset="0" stop-color="#FFF6CF"/>
+  <stop offset=".22" stop-color="#FFD75E"/>
+  <stop offset=".5" stop-color="#E3A626"/>
+  <stop offset=".66" stop-color="#FFE493"/>
+  <stop offset=".84" stop-color="#D8971C"/>
+  <stop offset="1" stop-color="#A86A0C"/>
+</linearGradient>
+<linearGradient id="mshine" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/>
+</linearGradient>
+<radialGradient id="mpip" cx=".36" cy=".32" r=".75">
+  <stop offset="0" stop-color="#FFF8DA"/><stop offset=".45" stop-color="#FFD35A"/><stop offset="1" stop-color="#B57812"/>
+</radialGradient>
+<filter id="mlift" x="-20%" y="-20%" width="140%" height="150%">
+  <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#14032E" flood-opacity=".65"/>
+</filter>
+<clipPath id="mback"><rect x="-300" y="-300" width="600" height="300"/></clipPath>
+<clipPath id="mfront"><rect x="-300" y="0" width="600" height="300"/></clipPath></defs>
+<rect width="512" height="512" rx="116" fill="url(#mbg)"/>
+<rect width="512" height="512" rx="116" fill="url(#msheen)"/>
+<rect x="10" y="10" width="492" height="492" rx="106" fill="none" stroke="url(#mgold)" stroke-opacity=".55" stroke-width="5"/>
+<g transform="translate(256 262) rotate(-17)" clip-path="url(#mback)"><ellipse rx="214" ry="62" fill="none" stroke="url(#mgold)" stroke-width="20"/><ellipse rx="214" ry="62" fill="none" stroke="#8A5A0B" stroke-opacity=".35" stroke-width="2"/></g>
+<g filter="url(#mlift)">
+  <path d="M150 112H252A144 144 0 0 1 252 400H150A34 34 0 0 1 116 366V146A34 34 0 0 1 150 112ZM208 190H252A66 66 0 0 1 252 322H208A14 14 0 0 1 194 308V204A14 14 0 0 1 208 190Z" fill-rule="evenodd" fill="url(#mgold)"/>
+  <path d="M150 112H252A144 144 0 0 1 252 400H150A34 34 0 0 1 116 366V146A34 34 0 0 1 150 112ZM208 190H252A66 66 0 0 1 252 322H208A14 14 0 0 1 194 308V204A14 14 0 0 1 208 190Z" fill-rule="evenodd" fill="url(#mshine)"/>
+  <path d="M150 112H252A144 144 0 0 1 252 400H150A34 34 0 0 1 116 366V146A34 34 0 0 1 150 112ZM208 190H252A66 66 0 0 1 252 322H208A14 14 0 0 1 194 308V204A14 14 0 0 1 208 190Z" fill-rule="evenodd" fill="none" stroke="#8A5A0B" stroke-opacity=".55" stroke-width="3"/>
+  <circle cx="256" cy="256" r="29" fill="url(#mpip)"/>
+</g>
+<g transform="translate(256 262) rotate(-17)" clip-path="url(#mfront)"><ellipse rx="214" ry="62" fill="none" stroke="url(#mgold)" stroke-width="20"/><ellipse rx="214" ry="62" fill="none" stroke="#8A5A0B" stroke-opacity=".35" stroke-width="2"/></g>
+<path d="M0 -30C4 -8 8 -4 30 0C8 4 4 8 0 30C-4 8 -8 4 -30 0C-8 -4 -4 -8 0 -30Z" transform="translate(404 118)" fill="#FFF6CF"/>
+<path d="M0 -30C4 -8 8 -4 30 0C8 4 4 8 0 30C-4 8 -8 4 -30 0C-8 -4 -4 -8 0 -30Z" transform="translate(110 418) scale(.5)" fill="#FFE493" opacity=".85"/></svg>
