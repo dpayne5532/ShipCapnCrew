@@ -502,6 +502,10 @@ footer a:hover { color: var(--text); }
 .app-list { display: grid; gap: 18px; }
 .app-card { display: grid; grid-template-columns: auto 1fr; gap: 36px; align-items: center; padding: 36px; }
 .app-icon { width: 128px; height: 128px; object-fit: cover; border-radius: 28px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); }
+/* Apple TV icons are 16:10 with gentler corners. */
+.app-icon.tv { width: 200px; height: 120px; border-radius: 14px; }
+.app-card { grid-template-columns: 200px 1fr; }
+.app-card .app-icon { justify-self: center; }
 .app-platform { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); text-transform: uppercase; }
 .app-info h2 { margin-top: 8px; }
 .app-info .lede { margin-top: 12px; font-size: 18px; }

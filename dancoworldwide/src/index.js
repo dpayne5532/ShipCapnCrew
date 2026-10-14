@@ -36,9 +36,32 @@ function withHeaders(response, extra) {
   return out;
 }
 
+function unavailable() {
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Temporarily unavailable — DanCo Worldwide</title>
+<link rel="stylesheet" href="/styles.css"></head><body>
+<div class="backdrop" aria-hidden="true"><div class="grid-floor"></div></div>
+<main><div class="wrap notfound"><div>
+<p class="kicker">Back soon</p><h1>This page is <span class="grad">temporarily unavailable.</span></h1>
+<p class="lede">Please try again in a few minutes.</p><a class="btn btn-primary" href="/">Back to DanCo Worldwide</a>
+</div></div></main></body></html>`;
+  return withHeaders(new Response(html, {
+    status: 503,
+    headers: { "Content-Type": "text/html; charset=utf-8", "Retry-After": "300", "Cache-Control": "no-store" },
+  }), HUB_HEADERS);
+}
+
 async function proxy(request, url, origin) {
   const target = new URL(url.pathname + url.search, origin);
-  const response = await fetch(new Request(target, request), { redirect: "manual" });
+  let response;
+  try {
+    response = await fetch(new Request(target, request), { redirect: "manual" });
+  } catch {
+    // The app's Pages project is down or not deployed yet.
+    return unavailable();
+  }
+  // Cloudflare answers 520–530 itself when it can't reach the origin (e.g. a pages.dev project that doesn't exist).
+  if (response.status >= 520 && response.status <= 530) return unavailable();
 
   // Keep the visitor on dancoworldwide.com when the origin redirects (e.g. adding a trailing slash).
   const location = response.headers.get("Location");

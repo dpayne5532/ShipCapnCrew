@@ -2,7 +2,7 @@
   "name": "dancoworldwide",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev --port 8790 --var CANONICAL_REDIRECTS:off --var SHIPCAPNCREW_ORIGIN:http://localhost:8788 --var FIVEDICETV_ORIGIN:http://localhost:8789",
+    "dev": "wrangler dev --port 8790 --var CANONICAL_REDIRECTS:off --inspector-port 9330 --var SHIPCAPNCREW_ORIGIN:http://localhost:8791 --var FIVEDICETV_ORIGIN:http://localhost:8792",
     "deploy": "wrangler deploy"
   },
   "devDependencies": {

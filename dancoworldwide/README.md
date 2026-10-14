@@ -28,8 +28,12 @@ npm install
 npm run dev   # http://localhost:8790
 ```
 
-`npm run dev` expects the apps running locally: Ship Cap'n Crew via `cd ../website && npx wrangler pages dev --port 8788`,
-and Five Dice on port 8789 (e.g. `python3 -m http.server 8789 --directory <fiveDiceTV repo>/website`).
+`npm run dev` expects both app sites running locally, each with its own inspector port so they don't collide:
+
+```sh
+cd ../website && npx wrangler pages dev --port 8791 --inspector-port 9331
+npx wrangler pages dev <fiveDiceTV repo>/website/public --port 8792 --inspector-port 9332
+```
 
 ## Deploy
 
