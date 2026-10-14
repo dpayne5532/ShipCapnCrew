@@ -157,6 +157,14 @@ struct ContentView: View {
     .onAppear {
       showSettings = demoSheet == "settings"
       showInfo = demoSheet == "info"
+      if let icon = UserDefaults.standard.string(forKey: "demoIcon") {
+        // iOS rejects icon changes until the app is active.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+          UIApplication.shared.setAlternateIconName(icon == "classic" ? "AppIconClassic" : nil) { error in
+            NSLog("demoIcon \(icon): \(error?.localizedDescription ?? "ok")")
+          }
+        }
+      }
     }
     #endif
   }
@@ -615,9 +623,24 @@ struct InfoView: View {
 
 // MARK: - Settings
 
+enum AppIconChoice: CaseIterable, Identifiable {
+  case new, classic
+
+  var id: Self { self }
+  var title: String { self == .new ? "New" : "Classic" }
+  var previewImage: String { self == .new ? "IconPreviewNew" : "IconPreviewClassic" }
+  /// Name of the alternate icon set in Assets.xcassets; nil is the primary AppIcon.
+  var alternateIconName: String? { self == .new ? nil : "AppIconClassic" }
+
+  static var current: AppIconChoice {
+    UIApplication.shared.alternateIconName == "AppIconClassic" ? .classic : .new
+  }
+}
+
 struct SettingsView: View {
   @ObservedObject var game: GameModel
   @AppStorage("classicMode") private var classicMode = false
+  @State private var appIcon = AppIconChoice.current
   @Environment(\.dismiss) var dismiss
 
   var body: some View {
@@ -651,11 +674,77 @@ struct SettingsView: View {
           .font(Theme.mono(11, .medium))
           .foregroundColor(Theme.dim)
 
+        if UIApplication.shared.supportsAlternateIcons {
+          iconPicker
+        }
+
         Spacer()
       }
       .padding(24)
     }
     .preferredColorScheme(.dark)
+  }
+
+  private var iconPicker: some View {
+    VStack(alignment: .leading, spacing: 14) {
+      VStack(alignment: .leading, spacing: 4) {
+        Text("App Icon")
+          .font(Theme.display(20))
+          .foregroundColor(Theme.text)
+        Text("Pick the icon for your Home Screen.")
+          .font(.system(size: 14, weight: .medium, design: .rounded))
+          .foregroundColor(Theme.dim)
+      }
+      HStack(spacing: 16) {
+        ForEach(AppIconChoice.allCases) { choice in
+          iconTile(choice)
+        }
+        Spacer(minLength: 0)
+      }
+    }
+    .padding(18)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .glassPanel(cornerRadius: 22, tint: Theme.cyan)
+  }
+
+  private func iconTile(_ choice: AppIconChoice) -> some View {
+    let selected = appIcon == choice
+    let shape = RoundedRectangle(cornerRadius: 18, style: .continuous)
+    return Button { setIcon(choice) } label: {
+      VStack(spacing: 8) {
+        Image(choice.previewImage)
+          .resizable()
+          .frame(width: 80, height: 80)
+          .clipShape(shape)
+          .overlay(shape.stroke(selected ? Theme.cyan : Color.white.opacity(0.15), lineWidth: selected ? 3 : 1)
+                     .padding(-4))
+          .shadow(color: selected ? Theme.cyan.opacity(0.6) : .clear, radius: 10)
+          .padding(4)
+        HStack(spacing: 5) {
+          if selected {
+            Image(systemName: "checkmark.circle.fill")
+              .foregroundColor(Theme.cyan)
+          }
+          Text(choice.title.uppercased())
+            .font(Theme.mono(11, .bold))
+            .tracking(1.5)
+            .foregroundColor(selected ? Theme.text : Theme.dim)
+        }
+      }
+    }
+    .buttonStyle(PressableStyle())
+    .accessibilityLabel("\(choice.title) app icon")
+    .accessibilityAddTraits(selected ? .isSelected : [])
+  }
+
+  private func setIcon(_ choice: AppIconChoice) {
+    guard choice != appIcon else { return }
+    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    UIApplication.shared.setAlternateIconName(choice.alternateIconName) { error in
+      DispatchQueue.main.async {
+        if error == nil { appIcon = choice }
+      }
+    }
   }
 
   private func settingToggle(_ title: String, detail: String, isOn: Binding<Bool>) -> some View {

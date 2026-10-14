@@ -35,6 +35,7 @@ BUILT FOR GAME NIGHT
 MAKE IT YOURS
 • Free Roll: no roll limit. Keep rollin' and holdin' as long as you like
 • Classic Mode: longtime player? Switch back to the original marble table, chunky buttons and all
+• App Icon: pick the new neon icon or the classic ship for your Home Screen
 • Switch any time. Your current turn carries over
 
 No ads, no accounts, no sign-ups. Just dice.
@@ -45,6 +46,7 @@ A whole new look! Ship Cap'n Crew has been rebuilt with a sleek neon design, glo
 New in Settings:
 • Free Roll — no roll limit, keep rollin' as long as you like
 • Classic Mode — the original look, for the longtime crew
+• App Icon — choose the new neon icon or the classic ship
 
 ## Assets
 | File | Placement | Size |
