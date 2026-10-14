@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dancoworldwide",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    // Run the router first so app paths are proxied instead of looked up in public/.
+    "run_worker_first": true
+  },
+  "vars": {
+    "SHIPCAPNCREW_ORIGIN": "https://shipcapncrew.pages.dev",
+    "FIVEDICETV_ORIGIN": "https://fivedicetv.pages.dev"
+  },
+  "routes": [
+    { "pattern": "dancoworldwide.com", "custom_domain": true },
+    { "pattern": "www.dancoworldwide.com", "custom_domain": true }
+  ],
+  "observability": { "enabled": true }
+}

@@ -1,22 +1,8 @@
-// Cloudflare Pages middleware: runs before every request to the static site.
-// Canonical host, HTTPS, legacy App Store links, and security headers.
-
-const APP_STORE = "https://apps.apple.com/us/app/ship-capn-crew/id1670235470";
+// Cloudflare Pages middleware for the Ship Cap'n Crew site.
+// dancoworldwide.com is served by the router Worker in ../dancoworldwide, which proxies /ShipCapnCrew/*
+// here and owns domain-wide concerns (www, HTTPS, legacy links). This only handles this app's paths.
 
 const APP_PATH = "/ShipCapnCrew";
-
-// Old or shorthand URLs that App Store Connect (or anyone else) may link to.
-// Keys are lowercase; matching is case-insensitive.
-const REDIRECTS = {
-  "/sccpp.html": `${APP_PATH}/support/`,
-  "/support": `${APP_PATH}/support/`,
-  "/support/": `${APP_PATH}/support/`,
-  "/privacy": `${APP_PATH}/privacy/`,
-  "/privacy/": `${APP_PATH}/privacy/`,
-  "/privacy-policy": `${APP_PATH}/privacy/`,
-  "/app": APP_STORE,
-  "/download": APP_STORE,
-};
 
 const SECURITY_HEADERS = {
   "Content-Security-Policy":
@@ -31,22 +17,10 @@ const SECURITY_HEADERS = {
 export async function onRequest({ request, next }) {
   const url = new URL(request.url);
 
-  // Only enforce the canonical host in production, not on localhost or *.pages.dev previews.
-  if (url.hostname.endsWith("dancoworldwide.com")) {
-    let changed = false;
-    if (url.hostname.startsWith("www.")) {
-      url.hostname = url.hostname.slice(4);
-      changed = true;
-    }
-    if (url.protocol === "http:") {
-      url.protocol = "https:";
-      changed = true;
-    }
-    if (changed) return Response.redirect(url.toString(), 301);
+  // On shipcapncrew.pages.dev, the bare root goes to the app page.
+  if (url.pathname === "/" || url.pathname === "/index.html") {
+    return Response.redirect(new URL(`${APP_PATH}/`, url).toString(), 302);
   }
-
-  const target = REDIRECTS[url.pathname.toLowerCase()];
-  if (target) return Response.redirect(new URL(target, url).toString(), 301);
 
   // Asset paths are case-sensitive: send /shipcapncrew/... to /ShipCapnCrew/...
   const lower = url.pathname.toLowerCase();
